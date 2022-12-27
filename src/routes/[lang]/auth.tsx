@@ -1,0 +1,9 @@
+import { Outlet } from "solid-start";
+
+export default function Main() {
+  return (
+    <div class="min-h-full flex flex-col justify-center items-center">
+      <Outlet />
+    </div>
+  );
+}
