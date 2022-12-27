@@ -1,7 +1,7 @@
 import { useI18n } from "@solid-primitives/i18n";
 import { ErrorBoundary, Show } from "solid-js";
 import { RouteDataArgs, useRouteData } from "solid-start";
-import { createServerData$ } from "solid-start/server";
+import { createServerData$, ServerError } from "solid-start/server";
 import Header from "~/components/header";
 import Oops from "~/components/oops";
 import { prisma } from "~/server/prisma";
@@ -9,6 +9,7 @@ import { prisma } from "~/server/prisma";
 export function routeData({ params }: RouteDataArgs) {
   return createServerData$(
     async (id, { request }) => {
+      throw new ServerError("fail");
       const test = await prisma.test.findUniqueOrThrow({
         where: { id },
       });
