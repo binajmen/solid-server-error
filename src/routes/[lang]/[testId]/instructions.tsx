@@ -1,6 +1,6 @@
 import { useI18n } from "@solid-primitives/i18n";
 import { ErrorBoundary, Show } from "solid-js";
-import { A, RouteDataArgs, useRouteData } from "solid-start";
+import { RouteDataArgs, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
 import Header from "~/components/header";
 import Oops from "~/components/oops";
@@ -11,12 +11,6 @@ export function routeData({ params }: RouteDataArgs) {
     async (id, { request }) => {
       const test = await prisma.test.findUniqueOrThrow({
         where: { id },
-        include: {
-          questionnaire: {
-            include: { _count: { select: { questions: true } } },
-          },
-          _count: { select: { answers: true } },
-        },
       });
 
       return test;
@@ -40,18 +34,10 @@ export default function TestInstructions() {
           <Header>{t("instructions.title")}</Header>
           <ul class="list-decimal space-y-2">
             <li>{t("instructions.why")}</li>
-            <li>
-              {t("instructions.time", {
-                amount: getMinutes(test()!.questionnaire._count.questions),
-              })}
-            </li>
             <li>{t("instructions.resume")}</li>
             <li>{t("instructions.accuracy")}</li>
             <li>{t("instructions.secure")}</li>
           </ul>
-          <A href="question" class="button">
-            {test()!._count.answers ? t("continue") : t("start")}
-          </A>
         </div>
       </Show>
     </ErrorBoundary>
