@@ -9,7 +9,7 @@ import { prisma } from "~/server/prisma";
 export function routeData({ params }: RouteDataArgs) {
   return createServerData$(
     async (id, { request }) => {
-      throw new ServerError("fail");
+      // throw new ServerError("fail"); <-- will lead to same issue
       const test = await prisma.test.findUniqueOrThrow({
         where: { id },
       });
